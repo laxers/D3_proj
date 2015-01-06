@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="./css/styles.css">
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript">
+
+var data = [];
+var next = function(x)
+{
+	return 20 + x*x;
+}
+
+var newData = function()
+{
+	data.push(next);
+	return data;
+}
+
+function render(data)
+{
+	var selections = d3.select("#container")
+						.selectAll("div")
+						.data(newData);
+	selections.enter().append("div").append("span");
+	selections.exit().remove();
+	selections.attr("class","v-bar")
+				.style("height",function(d,i)
+								{
+									return d(i)+"px";
+								})
+				.select("span")
+				.text(function(d,i)
+					  {
+					  	return d(i);
+					  })
+}
+setInterval(function()
+			{
+				render()
+			},1500);
+render();
+
+</script>
+
+
+<div id="container"></div>
